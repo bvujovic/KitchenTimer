@@ -28,8 +28,8 @@ bool Timer::refresh(unsigned long ms)
   if (!isRunning)
     return false;
 
-  bool res = false;
-  if (ms > msStart + 1000)
+  bool res = false;        // rezultat metoda - da li je vreme za alarm
+  if (ms > msStart + 1000) // istekla sekunda?
   {
     sec = sec + (isCountDown ? -1 : +1);
     msStart += 1000;
@@ -46,7 +46,7 @@ bool Timer::refresh(unsigned long ms)
 
 void Timer::displayTime()
 {
-  if (lastSec != sec)
+  if (lastSec != sec) // vreme se prikazuje samo kad se sec promenilo u odnosu na poslednji prikaz
   {
     int s = sec % 60;       // sekunde
     int m = (sec - s) / 60; // minuti
@@ -55,12 +55,14 @@ void Timer::displayTime()
   }
 }
 
-void Timer::toggleCountUpDown()
+void Timer::toggleCountUpDown(unsigned long ms)
 {
   isCountDown = !isCountDown;
-  if (!isCountDown)
+  if (!isCountDown) // ako se sada broji 0, 1, 2...
   {
+    // vreme se resetuje i brojanje odmah krece
     sec = 0;
-    displayTime();
+    msStart = ms;
+    isRunning = true;
   }
 }

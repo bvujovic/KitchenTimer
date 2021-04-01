@@ -11,7 +11,6 @@ const byte pinBtnSec = A1;
 ClickButton btnSec(pinBtnSec, LOW, CLICKBTN_PULLUP);
 const byte pinBtnSS = A2;
 ClickButton btnSS(pinBtnSS, LOW, CLICKBTN_PULLUP);
-//todo mozda dodati funkciju merenja vremena - vreme se ne odbrojava nego ide "nagore". pokrece se npr na dugi SS klik
 
 #include "Blinky.h"
 const byte pinBuzz = 11;
@@ -34,6 +33,7 @@ void setup()
 void loop()
 {
   delay(10);
+  ulong ms = millis();
 
   btnMin.Update();
   btnSec.Update();
@@ -45,15 +45,15 @@ void loop()
   if (btnSec.clicks == 1) // sec dugme dodaje 10 sekundi
     tim.addSec(10);
   if (btnSS.clicks == 1) // klik na Start/Stop dugme pokrece/zaustavlja odbrojavanje
-    tim.startStop(millis());
+    tim.startStop(ms);
   if (btnSS.clicks == -1) // dugi klik na Start/Stop dugme resetuje vreme na 00:00
     tim.resetSec();
   if (btnSS.clicks == 2) // dvostruki klik na Start/Stop dugme prebacuje odbrojavanje <-> brojanje
   {
-    tim.toggleCountUpDown();
+    tim.toggleCountUpDown(ms);
     ledOn(!tim.getCountDown());
   }
 
-  if (tim.refresh(millis())) // refresh displeja i pustanje zvuka ako je doslo vreme za to
+  if (tim.refresh(ms)) // refresh displeja i pustanje zvuka ako je doslo vreme za to
     buzz.blink();
 }

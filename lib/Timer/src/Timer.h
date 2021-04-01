@@ -8,7 +8,7 @@ class Timer
 {
 private:
   int sec = 0;                      // ukupan broj sekundi vremena koje se prikazuje -> minuti*60 + sekunde
-  int lastSec = -1;                 // ...
+  int lastSec = -1;                 // vreme koje je poslednje prikazano na displeju
   const int MAX_SEC = 99 * 60 + 59; // 99:59 je najvise sto u teoriji displej moze da prikaze
   bool isRunning = false;           // true - tajmer radi, false - tajmer je pauziran
   bool isCountDown = true;          // true - sekunde se odbrojavaju (idu ka 0), false - brojanje od 0 navise
@@ -35,5 +35,5 @@ public:
   // Prikaz vremena (minuti i sekunde) na displeju. Vraca true ukoliko je vreme tajmera doslo do 0.
   bool refresh(unsigned long ms);
   // Prebacivanje modova odbrojavanje <-> brojanje
-  void toggleCountUpDown();
+  void toggleCountUpDown(unsigned long ms);
 };
